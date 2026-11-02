@@ -2,6 +2,8 @@
 
 [English](README.md) | [简体中文](README_zh.md)
 
+[Demo](#demo) | [Model Family](#chanjing-avatar-model-family) | [Installation](#installation) | [Inference](#inference) | [Training](#training)
+
 Chanjing-Avatar is an audio-driven 720p avatar video generation model based on
 Wan2.1-T2V-14B. It takes a reference image, a driving audio track, and a text
 prompt, then generates a talking-avatar video with synchronized lip motion.
@@ -9,18 +11,35 @@ prompt, then generates a talking-avatar video with synchronized lip motion.
 This repository contains only the Chanjing-Avatar 14B image-to-video (I2V) training
 and inference pipeline.
 
-
+## Demo
 
 https://github.com/user-attachments/assets/560b72a5-8384-4892-a293-0766acbcf106
 
 ## Chanjing-Avatar Model Family
 
-- [Chanjing-Avatar 14B](https://github.com/chanjing-ai/Chanjing-Avatar) ([weights](https://huggingface.co/cicada-ai/Chanjing-Avatar-14B)): 720p image-to-video generation from a reference image and driving audio.
-- [Chanjing-Avatar V2V 5B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-5B) ([weights](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-5B)): video-to-video generation that preserves source motion and regenerates the speaking face.
-- [Chanjing-Avatar V2V 1.3B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-1.3B) ([weights](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-1.3B)): a lighter video-to-video model for audio-driven face animation.
+Training and inference code is open in all four repositories. Checkpoint
+availability is listed separately below.
 
+| Project | Input | Pipeline | Checkpoints |
+| --- | --- | --- | --- |
+| [Chanjing-Avatar 14B](https://github.com/chanjing-ai/Chanjing-Avatar) | Reference image + audio + prompt | 720p I2V; Wan2.1-T2V-14B | [Available](https://huggingface.co/cicada-ai/Chanjing-Avatar-14B) |
+| [Chanjing-Avatar V2V 5B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-5B) | Source video + audio | Face-region V2V; Wan2.2-TI2V-5B | [Available](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-5B) |
+| [Chanjing-Avatar V2V 1.3B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-1.3B) | Source video + audio | Streaming V2V; Wan2.1-T2V-1.3B / InfiniteTalk | [Available](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-1.3B) |
+| [Chanjing-Avatar V2V 1.3B Flash](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-1.3B-Flash) | Source video + audio | Prompt-free V2V; 14-step original / 6-step Audio CFG preset | [Model page; weights pending](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-1.3B-Flash) |
 
+### Choosing a Model
 
+- Starting from a still image: use **14B** to generate the talking-avatar video.
+- Starting from a video: use **V2V 5B** or **V2V 1.3B** to preserve source motion
+  while regenerating the speaking face. The 1.3B pipeline supports streaming
+  long-video generation.
+- Exploring prompt-free V2V and Audio CFG distillation: see **1.3B Flash**.
+  Its code is public, but end-to-end inference requires separately obtained
+  compatible weights.
+
+Use each repository's own environment, checkpoints, and preprocessing workflow.
+Parameter counts and sampling steps alone do not establish a speed, VRAM, or
+quality ranking across these different pipelines.
 
 ## Experience It in Our Products
 

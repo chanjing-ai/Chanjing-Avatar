@@ -2,18 +2,38 @@
 
 [English](README.md) | [简体中文](README_zh.md)
 
+[演示](#演示) | [模型家族](#chanjing-avatar-模型家族) | [安装](#安装) | [推理](#推理) | [训练](#训练)
+
 蝉镜数字人 14B（Chanjing-Avatar 14B）是一个基于 Wan2.1-T2V-14B 的音频驱动 720p 数字人视频生成模型。
 输入一张参考图、驱动音频和文本提示词，即可生成口型与音频同步的数字人视频。
 
 本仓库只包含 Chanjing-Avatar 14B 图生视频（I2V）的训练与推理代码。
 
+## 演示
+
 https://github.com/user-attachments/assets/560b72a5-8384-4892-a293-0766acbcf106
 
 ## Chanjing-Avatar 模型家族
 
-- [Chanjing-Avatar 14B](https://github.com/chanjing-ai/Chanjing-Avatar)（[权重](https://huggingface.co/cicada-ai/Chanjing-Avatar-14B)）：输入参考图与驱动音频，生成 720p 数字人视频。
-- [Chanjing-Avatar V2V 5B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-5B)（[权重](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-5B)）：保留源视频动作、镜头与背景，重新生成说话人脸。
-- [Chanjing-Avatar V2V 1.3B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-1.3B)（[权重](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-1.3B)）：更轻量的音频驱动人脸视频生成模型。
+四个项目均已开放训练与推理代码，模型权重的发布状态单独列出。
+
+| 项目 | 输入 | 技术路线 | 模型权重 |
+| --- | --- | --- | --- |
+| [Chanjing-Avatar 14B](https://github.com/chanjing-ai/Chanjing-Avatar) | 参考图 + 音频 + 提示词 | 720p 图生视频；Wan2.1-T2V-14B | [已发布](https://huggingface.co/cicada-ai/Chanjing-Avatar-14B) |
+| [Chanjing-Avatar V2V 5B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-5B) | 源视频 + 音频 | 人脸区域重生成；Wan2.2-TI2V-5B | [已发布](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-5B) |
+| [Chanjing-Avatar V2V 1.3B](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-1.3B) | 源视频 + 音频 | 流式 V2V；Wan2.1-T2V-1.3B / InfiniteTalk | [已发布](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-1.3B) |
+| [Chanjing-Avatar V2V 1.3B Flash](https://github.com/chanjing-ai/Chanjing-Avatar-V2V-1.3B-Flash) | 源视频 + 音频 | 无文本提示词 V2V；原版 14 步 / Audio CFG 蒸馏版 6 步配置 | [模型页；权重待发布](https://huggingface.co/cicada-ai/Chanjing-Avatar-V2V-1.3B-Flash) |
+
+### 如何选择
+
+- 只有一张参考图：使用 **14B** 生成数字人视频。
+- 已有源视频：使用 **V2V 5B** 或 **V2V 1.3B**，保留源视频动作并重新生成说话人脸。
+  其中 1.3B 提供流式长视频生成流程。
+- 研究无文本提示词 V2V 与 Audio CFG 蒸馏：查看 **1.3B Flash**。代码已开放，
+  完整推理仍需另行取得兼容权重。
+
+各项目使用各自的环境、权重与预处理流程。参数量和采样步数不能直接作为这些不同流程之间
+速度、显存占用或画质的排名依据。
 
 ## 在我们的产品中体验
 
